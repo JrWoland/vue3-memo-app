@@ -1,9 +1,20 @@
 <script setup lang="ts">
+import VanillaTilt from 'vanilla-tilt'
+import { onMounted, ref } from 'vue'
+
 defineProps<{ open: boolean; mathed: boolean }>()
+
+const tilt = ref<HTMLElement | null>(null)
+
+onMounted(() => {
+  if (tilt.value) {
+    VanillaTilt.init(tilt.value, { max: 20, speed: 900 })
+  }
+})
 </script>
 
 <template>
-  <div class="tile">
+  <div class="tile" ref="tilt" data-tilt data-tilt-glare data-tilt-max-glare="0.8">
     <div class="tile-flipper" :class="{ open: open || mathed, mathed }">
       <div class="tile__side tile__side--front">
         <slot></slot>
@@ -17,14 +28,17 @@ defineProps<{ open: boolean; mathed: boolean }>()
   position: relative;
   cursor: pointer;
   perspective: 700px;
+  transform-style: preserve-3d;
+  transform: perspective(1000px);
 }
 
 .tile-flipper {
-  width: 6rem;
-  height: 6rem;
+  width: 7rem;
+  height: 7rem;
   transition: transform 1s;
   transform-style: preserve-3d;
-  border: 4px solid rgb(230, 230, 230);
+  background-color: rgb(255, 243, 208);
+  border: 4px solid rgb(255, 237, 183);
   border-radius: 10px;
 }
 
@@ -38,7 +52,9 @@ defineProps<{ open: boolean; mathed: boolean }>()
 
 .tile__side {
   position: absolute;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
   width: 100%;
   backface-visibility: hidden;
@@ -50,7 +66,7 @@ defineProps<{ open: boolean; mathed: boolean }>()
 }
 
 .tile__side--front {
-  transform: rotateY(180deg);
+  transform: rotateY(180deg) translateZ(20px);
 }
 
 .hide {
