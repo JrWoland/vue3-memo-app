@@ -37,7 +37,7 @@ onMounted(() => {
 .tile-flipper {
   width: 7rem;
   height: 7rem;
-  transition: transform 1s;
+  transition: transform 0.4s;
   transform-style: preserve-3d;
   background-color: rgb(236, 236, 236);
   border-radius: 10px;

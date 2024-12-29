@@ -10,7 +10,6 @@ defineProps<{
   tiles: Tile[]
   pair: [Tile, Tile] | []
   onResetTiles: () => void
-  onShowAllTiles: () => void
   onTileChoose: (tile: Tile) => void
 }>()
 </script>
@@ -28,7 +27,6 @@ defineProps<{
       <CanvasWrapper :src="tile.content" />
     </AppTile>
   </div>
-  <AppButton @click="onShowAllTiles">Show all</AppButton>
   <AppButton @click="onResetTiles">Reset game</AppButton>
 </template>
 <style scoped lang="scss">
