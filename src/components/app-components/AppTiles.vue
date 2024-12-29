@@ -1,31 +1,41 @@
 <script setup lang="ts">
-import { useTilesPair } from '@/composables/useTilesPair'
+import { type Tile } from '@/composables/useTilesPair'
 import AppTile from './AppTile.vue'
+import AppButton from './AppButton.vue'
+import CanvasWrapper from './CanvasWrapper.vue'
 
-defineProps<{ size: number }>()
-
-const { tiles, chooseTile, isPaired, pair } = useTilesPair()
+defineProps<{
+  rows: number
+  columns: number
+  tiles: Tile[]
+  pair: [Tile, Tile] | []
+  onResetTiles: () => void
+  onShowAllTiles: () => void
+  onTileChoose: (tile: Tile) => void
+}>()
 </script>
 <template>
-  {{ isPaired ? 'YAYA' : ':()' }}
   <div></div>
-  <div class="app-tiles" :data-size="size">
+  <div class="app-tiles">
     <AppTile
       v-for="tile in tiles"
       :key="tile.uniqueID"
       :open="pair.includes(tile)"
       :mathed="tile.isMathed"
-      @click="chooseTile(tile)"
+      :bgc="tile.rarity"
+      @click="onTileChoose(tile)"
     >
-      {{ tile.content }}
+      <CanvasWrapper :src="tile.content" />
     </AppTile>
   </div>
+  <AppButton @click="onShowAllTiles">Show all</AppButton>
+  <AppButton @click="onResetTiles">Reset game</AppButton>
 </template>
 <style scoped lang="scss">
 .app-tiles {
   display: grid;
   gap: 10px;
-  grid-template-rows: repeat(v-bind(size), 1fr);
-  grid-template-columns: repeat(v-bind(size), 1fr);
+  grid-template-rows: repeat(v-bind(rows), 1fr);
+  grid-template-columns: repeat(v-bind(columns), 1fr);
 }
 </style>

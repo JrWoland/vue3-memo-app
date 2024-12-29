@@ -1,15 +1,44 @@
 import { ref, computed, watchEffect } from 'vue'
 
-type Tile = { uniqueID: string; mathID: string; isMathed: boolean; content: string }
+export type Tile = {
+  uniqueID: string
+  mathID: string
+  isMathed: boolean
+  content: string
+  rarity: string
+}
 
-const items: Tile[] = [
-  { uniqueID: '1', content: '👩', isMathed: false, mathID: 'face' },
-  { uniqueID: '2', content: '👩', isMathed: false, mathID: 'face' },
-  { uniqueID: '3', content: '👨‍🌾', isMathed: false, mathID: 'person' },
-  { uniqueID: '4', content: '👨‍🌾', isMathed: false, mathID: 'person' },
-  { uniqueID: '5', content: '🎃', isMathed: false, mathID: 'pumpkin' },
-  { uniqueID: '6', content: '🎃', isMathed: false, mathID: 'pumpkin' },
+const images = [
+  { path: '/img/weapons/rarity_1.png', rarity: 'purple' },
+  { path: '/img/weapons/rarity_2.png', rarity: 'red' },
+  { path: '/img/weapons/rarity_3.png', rarity: 'purple' },
+  { path: '/img/weapons/rarity_4.png', rarity: 'red' },
+  { path: '/img/weapons/rarity_5.png', rarity: 'purple' },
+  { path: '/img/weapons/rarity_6.png', rarity: 'purple' },
+  { path: '/img/weapons/rarity_7.png', rarity: 'blue' },
+  { path: '/img/weapons/rarity_8.png', rarity: 'blue' },
+  { path: '/img/weapons/rarity_9.png', rarity: 'red' },
+  { path: '/img/weapons/rarity_10.png', rarity: 'blue' },
 ]
+
+const items: Tile[] = images
+  .map((i) => [
+    {
+      uniqueID: crypto.randomUUID().toString(),
+      isMathed: false,
+      content: i.path,
+      mathID: i.path,
+      rarity: i.rarity,
+    },
+    {
+      uniqueID: crypto.randomUUID().toString(),
+      isMathed: false,
+      content: i.path,
+      mathID: i.path,
+      rarity: i.rarity,
+    },
+  ])
+  .flat(1)
 
 export function useTilesPair(timeout = 2000) {
   const tiles = ref(items)
@@ -26,7 +55,7 @@ export function useTilesPair(timeout = 2000) {
   function chooseTile(tile: Tile) {
     if (isTileAlreadyOpen(tile)) return
 
-    if (counter.value >= 2) resetTiles()
+    if (counter.value >= 2) resetPair()
 
     pair.value[counter.value % 2] = tile
     counter.value++
@@ -37,6 +66,15 @@ export function useTilesPair(timeout = 2000) {
   }
 
   function resetTiles() {
+    resetPair()
+    tiles.value.forEach((i) => (i.isMathed = false))
+  }
+
+  function showAll() {
+    tiles.value.forEach((i) => (i.isMathed = true))
+  }
+
+  function resetPair() {
     pair.value = []
     counter.value = 0
   }
@@ -47,12 +85,12 @@ export function useTilesPair(timeout = 2000) {
 
   watchEffect((onCleanup) => {
     if (isFilled.value) {
-      timeoutID.value = setTimeout(resetTiles, timeout)
+      timeoutID.value = setTimeout(resetPair, timeout)
     }
 
     onCleanup(() => {
       clearTimeout(timeoutID.value)
     })
   })
-  return { tiles, pair, isPaired, resetTiles, chooseTile }
+  return { tiles, pair, isPaired, resetTiles, chooseTile, showAll, isTileAlreadyOpen }
 }
