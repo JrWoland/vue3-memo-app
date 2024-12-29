@@ -1,0 +1,12 @@
+[
+  { "path": "/img/weapons/rarity_1.png", "rarity": "purple" },
+  { "path": "/img/weapons/rarity_2.png", "rarity": "red" },
+  { "path": "/img/weapons/rarity_3.png", "rarity": "purple" },
+  { "path": "/img/weapons/rarity_4.png", "rarity": "red" },
+  { "path": "/img/weapons/rarity_5.png", "rarity": "purple" },
+  { "path": "/img/weapons/rarity_6.png", "rarity": "purple" },
+  { "path": "/img/weapons/rarity_7.png", "rarity": "blue" },
+  { "path": "/img/weapons/rarity_8.png", "rarity": "blue" },
+  { "path": "/img/weapons/rarity_9.png", "rarity": "red" },
+  { "path": "/img/weapons/rarity_10.png", "rarity": "blue" }
+]
