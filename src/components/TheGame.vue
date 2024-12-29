@@ -54,7 +54,7 @@ watch(selectedLevel, () => resetGame())
   <AppSettings v-model="selectedLevel" :list="levelsList" />
   <AppStatistics :timer="time" :attempts="attempts" />
   <AppTiles
-    :rows="2"
+    :rows="1"
     :columns="4"
     :tiles="tiles"
     :pair="pair"

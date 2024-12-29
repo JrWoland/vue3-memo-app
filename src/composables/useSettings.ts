@@ -7,7 +7,7 @@ const levelhard = { timeout: 2000, items: 10, label: 'Hard' }
 export function useSettings() {
   const levelsList = [levelEasy, levelNormal, levelhard]
 
-  const selectedLevel = ref(levelEasy)
+  const selectedLevel = ref(levelNormal)
 
   return { levelsList, selectedLevel }
 }
